@@ -7,6 +7,7 @@ const zod = require("zod");
 const { User } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
+const { Account } = require("../db");
 const app = express();
 
 app.use(express.json());
@@ -19,12 +20,7 @@ const signupBody = zod.object({
 	
 })
 
-router.get("/Hello",(req, res) => {
-    console.log(req.body)
-    res.json({
-      message: "Hello World",
-    });
-  });
+
 
 router.post("/signup", async (req, res) => {
     const { success } = signupBody.safeParse(req.body)
@@ -54,7 +50,7 @@ router.post("/signup", async (req, res) => {
 
     	/// ----- Create new account ------
 
-        await Account.create({
+    await Account.create({
             userId,
             balance: 1 + Math.random() * 10000
         })
